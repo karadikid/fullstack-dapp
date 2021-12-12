@@ -1,14 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json';
 import { EtherscanProvider } from '@ethersproject/providers';
 
-const greeterAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+const greeterAddress = "0xA0D8e657c03CeDDeE7d2d1eC506CCa200690c2bE"
 
 function App() {
-  const [greeting, setGreetingValue] = useState()
+  const [greeting, setGreetingValue] = useState(' ')
   //
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts'});
@@ -33,6 +32,7 @@ function App() {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer)
       const transaction = await contract.setGreeting(greeting)
+      setGreetingValue('')
       await transaction.wait()
       fetchGreeting()
     }
@@ -45,6 +45,7 @@ function App() {
         <input 
           onChange={e => setGreetingValue(e.target.value)}
           placeholder="Set Greeting"
+          value={greeting}
         />
       </header>
     </div>
