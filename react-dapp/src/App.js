@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json';
 import Token from './artifacts/contracts/token.sol/Token.json'
 
-const greeterAddress = "0xA0D8e657c03CeDDeE7d2d1eC506CCa200690c2bE"
+const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 const tokenAddress = "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   async function fetchGreeting() {
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
-      const contract = new ethers.Contract(tokenAddress, Token.abi, provider)
+      const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider)
       try {
           const data = await contract.greet()
           console.log('data: ', data)
@@ -31,10 +31,10 @@ function App() {
 
   async function getBalance() {
     if (typeof window.ethereum !== 'undefined') {
-      const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider);
-      const balance = await contract.balanceOf (account);
+      const contract = new ethers.Contract(tokenAddress, Token.abi, provider)
+      const balance = await contract.balanceOf(account);
       console.log("Balance: ", balance.toString());
     }
   }
